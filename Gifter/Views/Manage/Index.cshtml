@@ -23,11 +23,6 @@
             }
             ]
         </dd>
-        <dt>Logowania zewnętrzne:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Zarządzaj", "ManageLogins") ]
-        </dd>
         @*
             Numery telefonów mogą być używane jako drugi składnik w systemach uwierzytelniania dwuskładnikowego.
              
@@ -56,12 +51,6 @@
                 }
             </dd>
         *@
-        <dt>Uwierzytelnianie dwuetapowe:</dt>
-        <dd>
-            <p>
-                Nie skonfigurowano żadnych dostawców uwierzytelniania dwuskładnikowego. Zobacz <a href="https://go.microsoft.com/fwlink/?LinkId=403804">ten artykuł</a>,
-                aby uzyskać szczegółowe informacje na temat konfigurowania tej aplikacji ASP.NET pod kątem obsługi uwierzytelniania dwuskładnikowego.
-            </p>
             @*@if (Model.TwoFactor)
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

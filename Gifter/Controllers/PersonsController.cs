@@ -24,9 +24,7 @@ namespace Gifter.Controllers
             return View(db.Persons.ToList());
         }
 
-
         // GET: Persons/Details/5
-        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,35 +32,6 @@ namespace Gifter.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             PersonModel personModel = db.Persons.Find(id);
-            var model = (from p in db.Persons.ToList()
-                         join l in db.PersonLikes.ToList() on p.Id equals l.PersonId
-                         join d in db.PersonDislikes.ToList() on p.Id equals d.PersonId
-                         join pr in db.PersonProperties.ToList() on p.Id equals pr.PersonId
-                         join pc in db.propertiesCategories.ToList() on pr.CategoryId equals pc.Id
-                         where p.Id == id
-                         select new PersonDetailsModel
-                         {
-                         }
-                        );
-            PersonDetailsModel personDetails = (from p in db.Persons.ToList()
-                                                where p.Id == id
-                                                select new PersonDetailsModel
-                                                {
-                                                    Id = p.Id,
-                                                    UserId = p.UserId,
-                                                    FirstName = p.FirstName,
-                                                    SirName = p.SirName,
-                                                    AddInfo = p.AddInfo,
-                                                    BirthDate = p.BirthDate
-                                                }).First();
-            //personDetails.personDislikes = db.PersonDislikes.Where(d => d.PersonId == personDetails.Id).ToList().Join(db.);
-            //Zmienić personDislikes na personDislikesDisplay - > catID -> catname,catval;
-            personDetails.personLikes = db.PersonLikes.Where(d => d.PersonId == personDetails.Id).ToList();
-            personDetails.personProperies = new List<PersonProperyModel>();
-
-            
-
-
             if (personModel == null)
             {
                 return HttpNotFound();
@@ -151,6 +120,47 @@ namespace Gifter.Controllers
             return RedirectToAction("Index");
         }
 
+        [ChildActionOnly]
+        public ActionResult PropertiesTable(int personId)
+        {
+            return PartialView(GetPersonProperies(personId));
+        }
+
+        [ChildActionOnly]
+        public ActionResult GetDislikesTable(int personId) 
+        {
+            return PartialView(GetPersonDislikes(personId));
+        }
+
+        [ChildActionOnly]
+        public ActionResult LikesTable(int personId)
+        {
+            return PartialView(GetPersonLikes(personId));
+        }
+
+        private IEnumerable<Gifter.Models.PersonDislikesModel> GetPersonDislikes(int id) 
+        {
+            return db.PersonDislikes.Where(d => d.PersonId == id).ToList();
+        }
+
+        private IEnumerable<Gifter.Models.PersonLikesDisplay> GetPersonLikes(int id)
+        {
+            IEnumerable<Gifter.Models.PersonLikesDisplay> display = (from l in db.PersonLikes.ToList().Where(like => like.PersonId == id)
+                                          join c in db.Categories.ToList() on l.CategoryId equals c.Id
+                                          select new PersonLikesDisplay
+                                          {
+                                              Id = l.Id,
+                                              CategoryName = c.Name,
+                                              Level = l.Level,
+                                              Name = l.Name
+                                          }).ToList();
+            return display;
+        }
+
+        private IEnumerable<Gifter.Models.PersonProperyModel> GetPersonProperies(int id)
+        {
+           return db.PersonProperties.Where(p => p.PersonId == id).ToList();
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

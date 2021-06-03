@@ -3,23 +3,16 @@
 @{
     ViewBag.Title = "Details";
 }
+@Styles.Render("~/Content/TableStyles.css")
 
-<h2>Details</h2>
+<h2>@Model.FirstName's Details</h2>
 
 <div>
-    <h4>PersonModel</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AddInfo)
+            Adittional informations
         </dt>
 
         <dd>
@@ -27,15 +20,22 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
+            Birth Date
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BirthDate)
+            @Model.BirthDate.ToString("yyyy-MM-dd")
         </dd>
 
     </dl>
 </div>
+@{
+    Html.RenderAction("PropertiesTable", "Persons", new { personId = Model.Id });
+}
+<div class="separator"></div>
+@{
+    Html.RenderAction("LikesTable", "Persons", new { personId = Model.Id });
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

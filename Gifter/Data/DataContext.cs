@@ -19,8 +19,6 @@ namespace Gifter.Data
         public System.Data.Entity.DbSet<PersonDislikesModel> PersonDislikes { get; set; }
         public System.Data.Entity.DbSet<PresentsModel> Presents { get; set; }
         public System.Data.Entity.DbSet<CategoriesModel> Categories { get; set; }
-        public System.Data.Entity.DbSet<PropertiesCategoryModel> propertiesCategories { get; set; }
-        public System.Data.Entity.DbSet<DislikesAndLikesCategoryModel> dislikesAndLikesCategories { get; set; }
 
     }
 }

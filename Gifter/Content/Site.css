@@ -1,6 +1,6 @@
 ﻿body {
-    color: whitesmoke;
     padding-bottom: 20px;
+    color: whitesmoke;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -23,14 +23,14 @@ textarea {
     max-width: 280px;
 }
 
-label,
+.navbar-expand-lg{
+    padding-left:20vw;
+    padding-right:20vw;
+}
+
 h1,
 h2,
 h3,
 h4 {
     color: whitesmoke;
-}
-.navbar-expand-lg{
-    padding-left:20vw;
-    padding-right:20vw;
 }

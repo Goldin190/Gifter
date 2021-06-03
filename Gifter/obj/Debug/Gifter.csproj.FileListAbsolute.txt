@@ -154,5 +154,3 @@ C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.Migrations
 C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.DataMigrations.Initial.resources
 C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.UsersMigrations.Initial.resources
 C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.DataMigrations.initial1.resources
-C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.DataMigrations.initial2.resources
-C:\Users\Maciej\source\repos\GifterAwsProject\Gifter\obj\Debug\Gifter.DataMigrations.initial3.resources
