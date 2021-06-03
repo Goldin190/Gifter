@@ -1,0 +1,26 @@
+﻿body {
+}
+.container-buttons {
+    margin-top: 20vh;
+    margin-bottom: 40vh;
+}
+.welcome-container {
+    text-align: center;
+    color: whitesmoke;
+}
+.bigWords {
+    font-size: 80px;
+}
+.short{
+    margin-right: -1vw;
+}
+.btn {
+    margin-top: 2vh;
+    display: inline-block;
+    height: 10vh;
+    font-size: xx-large;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    text-align: center;
+    line-height: 70px;
+}
