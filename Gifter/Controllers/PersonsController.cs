@@ -21,7 +21,7 @@ namespace Gifter.Controllers
         // GET: Persons
         public ActionResult Index()
         {
-            return View(db.Persons.ToList());
+            return View(db.Persons.ToList().Where(p => p.UserId == User.Identity.GetUserId()));
         }
 
         // GET: Persons/Details/5
@@ -127,7 +127,7 @@ namespace Gifter.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult GetDislikesTable(int personId) 
+        public ActionResult DislikesTable(int personId) 
         {
             return PartialView(GetPersonDislikes(personId));
         }
@@ -138,9 +138,38 @@ namespace Gifter.Controllers
             return PartialView(GetPersonLikes(personId));
         }
 
-        private IEnumerable<Gifter.Models.PersonDislikesModel> GetPersonDislikes(int id) 
+        [ChildActionOnly]
+        public ActionResult PresentsTable(int personId)
         {
-            return db.PersonDislikes.Where(d => d.PersonId == id).ToList();
+            return PartialView(GetPresents(personId));
+        }
+        private IEnumerable<Gifter.Models.PresentsModelDisplay> GetPresents(int id)
+        {
+            IEnumerable<Gifter.Models.PresentsModelDisplay> display = (from p in db.Presents.Where(present => present.PersonId == id)
+                                                                        join c in db.Categories on p.CategoryId equals c.Id
+                                                                        select new PresentsModelDisplay
+                                                                        {
+                                                                            Id = p.Id,
+                                                                            PersonId = p.PersonId,
+                                                                            LinkToProduct = p.LinkToProduct,
+                                                                            CategoryName = c.Name,
+                                                                            Name = p.Name,
+                                                                            IsDone = p.IsDone
+                                                                        }).ToList();
+            return display;
+        }
+        private IEnumerable<Gifter.Models.PersonDislikesDisplay> GetPersonDislikes(int id) 
+        {
+            IEnumerable<Gifter.Models.PersonDislikesDisplay> display = (from d in db.PersonDislikes.ToList().Where(dislike => dislike.PersonId == id)
+                                                                     join c in db.Categories.ToList() on d.CategoryId equals c.Id
+                                                                     select new PersonDislikesDisplay
+                                                                     {
+                                                                         Id = d.Id,
+                                                                         CategoryName = c.Name,
+                                                                         Level = d.Level,
+                                                                         Name = d.Name
+                                                                     }).ToList();
+            return display;
         }
 
         private IEnumerable<Gifter.Models.PersonLikesDisplay> GetPersonLikes(int id)

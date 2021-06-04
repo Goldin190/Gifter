@@ -1,8 +1,6 @@
 ﻿@model Gifter.Models.PersonModel
 
-@{
-    ViewBag.Title = "Details";
-}
+@{ ViewBag.Title = "Details"; }
 @Styles.Render("~/Content/TableStyles.css")
 
 <h2>@Model.FirstName's Details</h2>
@@ -29,13 +27,13 @@
 
     </dl>
 </div>
-@{
-    Html.RenderAction("PropertiesTable", "Persons", new { personId = Model.Id });
-}
+@{ Html.RenderAction("PropertiesTable", "Persons", new { personId = Model.Id }); }
 <div class="separator"></div>
-@{
-    Html.RenderAction("LikesTable", "Persons", new { personId = Model.Id });
-}
+@{ Html.RenderAction("LikesTable", "Persons", new { personId = Model.Id }); }
+<div class="separator"></div>
+@{ Html.RenderAction("DislikesTable", "Persons", new { personId = Model.Id }); }
+<div class="separator"></div>
+@{ Html.RenderAction("PresentsTable", "Persons", new { personId = Model.Id }); }
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

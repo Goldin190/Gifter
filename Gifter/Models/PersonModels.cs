@@ -31,15 +31,6 @@ namespace Gifter.Models
         public string Value { get; set; }
     }
 
-    [NotMapped]
-    public class PersonLikesDisplay
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-        public string CategoryName { get; set; }
-        public int Level { get; set; }
-    }
-
     [Table("PersonsLikes", Schema = "public")]
     public class PersonLikesModel
     {
@@ -58,6 +49,24 @@ namespace Gifter.Models
         public string Name { get; set; }
         public int PersonId { get; set; }
         public int CategoryId { get; set; }
+        public int Level { get; set; }
+    }
+
+        [NotMapped]
+    public class PersonLikesDisplay
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
+        public int Level { get; set; }
+    }
+
+    [NotMapped]
+    public class PersonDislikesDisplay
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
         public int Level { get; set; }
     }
 }
