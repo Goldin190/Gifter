@@ -12,7 +12,7 @@
             <th>
                 How Much (1-5)
             </th>
-            <th>@Html.ActionLink("Add new item to LIKES !", "Create")</th>
+            <th>@Html.ActionLink("Create", "CreateLike", new { id = Model.ToList()[0].PersonId })</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +21,7 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CategoryName)

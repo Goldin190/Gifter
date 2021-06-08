@@ -44,7 +44,6 @@ namespace Gifter.Controllers
         {
             return View();
         }
-
         // POST: Persons/Create
         // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
         // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -61,6 +60,29 @@ namespace Gifter.Controllers
             }
 
             return View(personModel);
+        }
+        public ActionResult CreateLike(int ?id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PersonLikesModel model = new PersonLikesModel();
+            model.PersonId = id.Value;
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Name,PersonId,CategoryId,Level")] PersonLikesModel personLikesModel)
+        {
+            if (ModelState.IsValid)
+            {
+                db.PersonLikes.Add(personLikesModel);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(personLikesModel);
         }
 
         // GET: Persons/Edit/5
@@ -143,6 +165,21 @@ namespace Gifter.Controllers
         {
             return PartialView(GetPresents(personId));
         }
+
+        private IEnumerable<Gifter.Models.PersonLikesDisplay> GetPersonLikes(int id)
+        {
+            IEnumerable<Gifter.Models.PersonLikesDisplay> display = (from l in db.PersonLikes.ToList().Where(like => like.PersonId == id)
+                                                                     join c in db.Categories.ToList() on l.CategoryId equals c.Id
+                                                                     select new PersonLikesDisplay
+                                                                     {
+                                                                         Id = l.Id,
+                                                                         PersonId = l.PersonId,
+                                                                         CategoryName = c.Name,
+                                                                         Level = l.Level,
+                                                                         Name = l.Name
+                                                                     }).ToList();
+            return display;
+        }
         private IEnumerable<Gifter.Models.PresentsModelDisplay> GetPresents(int id)
         {
             IEnumerable<Gifter.Models.PresentsModelDisplay> display = (from p in db.Presents.Where(present => present.PersonId == id)
@@ -172,19 +209,7 @@ namespace Gifter.Controllers
             return display;
         }
 
-        private IEnumerable<Gifter.Models.PersonLikesDisplay> GetPersonLikes(int id)
-        {
-            IEnumerable<Gifter.Models.PersonLikesDisplay> display = (from l in db.PersonLikes.ToList().Where(like => like.PersonId == id)
-                                          join c in db.Categories.ToList() on l.CategoryId equals c.Id
-                                          select new PersonLikesDisplay
-                                          {
-                                              Id = l.Id,
-                                              CategoryName = c.Name,
-                                              Level = l.Level,
-                                              Name = l.Name
-                                          }).ToList();
-            return display;
-        }
+
 
         private IEnumerable<Gifter.Models.PersonProperyModel> GetPersonProperies(int id)
         {

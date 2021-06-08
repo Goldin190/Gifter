@@ -16,4 +16,10 @@ namespace Gifter.Models
         public string UserId { get; set; }
 
     }
+    [NotMapped]
+    public class CategoriesDropDown
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

@@ -52,10 +52,11 @@ namespace Gifter.Models
         public int Level { get; set; }
     }
 
-        [NotMapped]
+    [NotMapped]
     public class PersonLikesDisplay
     {
         public string Name { get; set; }
+        public int PersonId { get; set; }
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public int Level { get; set; }
