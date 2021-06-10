@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Gifter.Models.PersonLikesDisplay>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>
+                <h4>Likes</h4>
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                How Much (1-5)
+            </th>
+            <th>@Html.ActionLink("Create new like", "Create", new { id = ViewBag.id })</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Level)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

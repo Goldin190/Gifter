@@ -23,16 +23,23 @@ namespace Gifter.Controllers
             return View(db.Categories.ToList().Where(c => c.UserId == User.Identity.GetUserId() || c.UserId == "All"));   
         }
         [ChildActionOnly]
-        public ActionResult DropDown()
+        public ActionResult DropDown(int ?id)
         {
-            ViewBag.CategoryId= GetCategories();
-            return View();
+            if(id == null)
+            {
+                ViewBag.id = 0;
+            }
+            else
+            {
+                ViewBag.id = id.Value;
+            }
+            return View(GetCategories());
         }
 
-        private List<CategoriesDropDown>GetCategories()
+        private IEnumerable<CategoriesDropDown> GetCategories()
         {
             string userId = User.Identity.GetUserId();
-            List<CategoriesDropDown> result = (from c in db.Categories
+            IEnumerable<CategoriesDropDown> result = (from c in db.Categories
                                                where c.UserId == userId || c.UserId == "All"
                                                select new CategoriesDropDown
                                                {

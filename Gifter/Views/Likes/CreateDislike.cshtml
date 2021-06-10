@@ -1,11 +1,11 @@
-﻿@model Gifter.Models.PersonLikesModel
+﻿@model Gifter.Models.PersonDislikesModel
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CreateLike</h2>
+<h2>CreateLike@{Model.PersonId.ToString();}</h2>
 
 @using (Html.BeginForm())
 {

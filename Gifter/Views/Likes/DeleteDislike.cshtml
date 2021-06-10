@@ -1,9 +1,10 @@
-﻿@model Gifter.Models.PersonLikesModel
-
+﻿@model Gifter.Models.PersonDislikesModel
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "DeleteDislike";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<h2>DeleteDislike</h2>
 
 <h2>Delete</h2>
 
@@ -21,22 +22,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PersonId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PersonId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoryId)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Level)
         </dt>
 
@@ -46,7 +31,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

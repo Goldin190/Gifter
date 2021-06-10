@@ -21,7 +21,7 @@ namespace Gifter.Controllers
         // GET: Persons
         public ActionResult Index()
         {
-            return View(db.Persons.ToList().Where(p => p.UserId == User.Identity.GetUserId()));
+            return View(db.Persons.ToList().Where(p => p.UserId == User.Identity.GetUserId()).OrderBy(p => p.Id));
         }
 
         // GET: Persons/Details/5
@@ -44,9 +44,7 @@ namespace Gifter.Controllers
         {
             return View();
         }
-        // POST: Persons/Create
-        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
-        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserId,AddInfo,BirthDate,FirstName,SirName")] PersonModel personModel)
@@ -73,18 +71,44 @@ namespace Gifter.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,PersonId,CategoryId,Level")] PersonLikesModel personLikesModel)
+        public ActionResult CreateLike([Bind(Include = "Name,PersonId,CategoryId,Level")] PersonLikesModel personLikesModel)
         {
+            int personId = personLikesModel.PersonId;
             if (ModelState.IsValid)
             {
                 db.PersonLikes.Add(personLikesModel);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details",new { id = personId });
             }
 
             return View(personLikesModel);
         }
 
+        public ActionResult CreateProperty(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PersonProperyModel model = new PersonProperyModel();
+            model.PersonId = id.Value;
+            ViewBag.id = id;
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateProperty([Bind(Include = "PersonId,Name,Value")] PersonProperyModel personProperyModel)
+        {
+            int personId = personProperyModel.PersonId;
+            if (ModelState.IsValid)
+            {
+                db.PersonProperties.Add(personProperyModel);
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = personId });
+            }
+
+            return View(personProperyModel);
+        }
         // GET: Persons/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -100,12 +124,9 @@ namespace Gifter.Controllers
             return View(personModel);
         }
 
-        // POST: Persons/Edit/5
-        // Aby zapewnić ochronę przed atakami polegającymi na przesyłaniu dodatkowych danych, włącz określone właściwości, z którymi chcesz utworzyć powiązania.
-        // Aby uzyskać więcej szczegółów, zobacz https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,AddInfo,BirthDate")] PersonModel personModel)
+        public ActionResult Edit([Bind(Include = "Id,FirstName,SirName,UserId,AddInfo,BirthDate")] PersonModel personModel)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +135,34 @@ namespace Gifter.Controllers
                 return RedirectToAction("Index");
             }
             return View(personModel);
+        }
+
+        public ActionResult EditProperty(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PersonProperyModel personProperyModel = db.PersonProperties.Find(id);
+            if (personProperyModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(personProperyModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProperty([Bind(Include = "Id,PersonId,Name,Value")] PersonProperyModel personProperyModel)
+        {
+            int personId = personProperyModel.PersonId;
+            if (ModelState.IsValid)
+            {
+                db.Entry(personProperyModel).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details","Persons",new { id = personId });
+            }
+            return View(personProperyModel);
         }
 
         // GET: Persons/Delete/5
@@ -141,74 +190,40 @@ namespace Gifter.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult DeleteProperty(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PersonProperyModel personProperyModel= db.PersonProperties.Find(id);
+            if (personProperyModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(personProperyModel);
+        }
+
+        // POST: Persons/Delete/5
+        [HttpPost, ActionName("DeleteProperty")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePropertyConfirmed(int id)
+        {
+            PersonProperyModel personProperyModel = db.PersonProperties.Find(id);
+            int personId = personProperyModel.PersonId;
+            db.PersonProperties.Remove(personProperyModel);
+            db.SaveChanges();
+            return RedirectToAction("Details",new { id = personId });
+        }
 
         [ChildActionOnly]
         public ActionResult PropertiesTable(int personId)
         {
+            ViewBag.id = personId;
             return PartialView(GetPersonProperies(personId));
         }
 
-        [ChildActionOnly]
-        public ActionResult DislikesTable(int personId) 
-        {
-            return PartialView(GetPersonDislikes(personId));
-        }
-
-        [ChildActionOnly]
-        public ActionResult LikesTable(int personId)
-        {
-            return PartialView(GetPersonLikes(personId));
-        }
-
-        [ChildActionOnly]
-        public ActionResult PresentsTable(int personId)
-        {
-            return PartialView(GetPresents(personId));
-        }
-
-        private IEnumerable<Gifter.Models.PersonLikesDisplay> GetPersonLikes(int id)
-        {
-            IEnumerable<Gifter.Models.PersonLikesDisplay> display = (from l in db.PersonLikes.ToList().Where(like => like.PersonId == id)
-                                                                     join c in db.Categories.ToList() on l.CategoryId equals c.Id
-                                                                     select new PersonLikesDisplay
-                                                                     {
-                                                                         Id = l.Id,
-                                                                         PersonId = l.PersonId,
-                                                                         CategoryName = c.Name,
-                                                                         Level = l.Level,
-                                                                         Name = l.Name
-                                                                     }).ToList();
-            return display;
-        }
-        private IEnumerable<Gifter.Models.PresentsModelDisplay> GetPresents(int id)
-        {
-            IEnumerable<Gifter.Models.PresentsModelDisplay> display = (from p in db.Presents.Where(present => present.PersonId == id)
-                                                                        join c in db.Categories on p.CategoryId equals c.Id
-                                                                        select new PresentsModelDisplay
-                                                                        {
-                                                                            Id = p.Id,
-                                                                            PersonId = p.PersonId,
-                                                                            LinkToProduct = p.LinkToProduct,
-                                                                            CategoryName = c.Name,
-                                                                            Name = p.Name,
-                                                                            IsDone = p.IsDone
-                                                                        }).ToList();
-            return display;
-        }
-        private IEnumerable<Gifter.Models.PersonDislikesDisplay> GetPersonDislikes(int id) 
-        {
-            IEnumerable<Gifter.Models.PersonDislikesDisplay> display = (from d in db.PersonDislikes.ToList().Where(dislike => dislike.PersonId == id)
-                                                                     join c in db.Categories.ToList() on d.CategoryId equals c.Id
-                                                                     select new PersonDislikesDisplay
-                                                                     {
-                                                                         Id = d.Id,
-                                                                         CategoryName = c.Name,
-                                                                         Level = d.Level,
-                                                                         Name = d.Name
-                                                                     }).ToList();
-            return display;
-        }
-
+        
 
 
         private IEnumerable<Gifter.Models.PersonProperyModel> GetPersonProperies(int id)

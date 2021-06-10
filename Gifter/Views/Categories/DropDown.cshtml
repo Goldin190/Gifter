@@ -1,2 +1,19 @@
-﻿@Html.DropDownList("CategoryId")
-@*Change html.DropDownList to working one :D*@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<Gifter.Models.CategoriesDropDown>
+
+<select name="CategoryId" id="CategoryId" class="form-control">
+    @foreach (var item in Model)
+    {
+        if (ViewBag.id == item.Id)
+        {
+            <option value="@item.Id" selected>@item.Name</option>
+        }
+        else
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+
+    }
+</select>
