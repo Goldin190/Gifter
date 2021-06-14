@@ -1,0 +1,40 @@
+﻿@model Gifter.Models.PersonModel
+
+@{ ViewBag.Title = "Details"; }
+@Styles.Render("~/Content/TableStyles.css")
+
+<h2>@Model.FirstName's Details</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Adittional informations
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddInfo)
+        </dd>
+
+        <dt>
+            Birth Date
+        </dt>
+
+        <dd>
+            @Model.BirthDate.ToString("yyyy-MM-dd")
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+@{ Html.RenderAction("PropertiesTable", "Persons", new { personId = Model.Id }); }
+<div class="separator"></div>
+@{ Html.RenderAction("LikesTable", "Likes", new { personId = Model.Id }); }
+<div class="separator"></div>
+@{ Html.RenderAction("DislikesTable", "Likes", new { personId = Model.Id }); }
+<div class="separator"></div>
+@{ Html.RenderAction("PresentsTable", "Presents", new { personId = Model.Id }); }
