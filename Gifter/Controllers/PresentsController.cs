@@ -53,11 +53,12 @@ namespace Gifter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PersonId,CategoryId,Name,LinkToProduct,IsDone")] PresentsModel presentsModel)
         {
+            int personId = presentsModel.PersonId;
             if (ModelState.IsValid)
             {
                 db.Presents.Add(presentsModel);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Persons", new { id = personId });
             }
 
             return View(presentsModel);
@@ -82,11 +83,12 @@ namespace Gifter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PersonId,CategoryId,Name,LinkToProduct,IsDone")] PresentsModel presentsModel)
         {
+            int personId = presentsModel.PersonId;
             if (ModelState.IsValid)
             {
                 db.Entry(presentsModel).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Persons", new { id = personId });
             }
             return View(presentsModel);
         }
