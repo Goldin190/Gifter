@@ -22,6 +22,7 @@
         <div class="col-md-10">
             @{ Html.RenderAction("DropDown", "Categories"); }
             @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+            @Html.ActionLink("Add Category", "Create", "Categories")
         </div>
     </div>
 
@@ -60,5 +61,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Details", "Persons", Model.PersonId)
+    @Html.ActionLink("Back", "Details", "Persons", new { id = ViewBag.Id },null)
 </div>

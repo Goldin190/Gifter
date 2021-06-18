@@ -49,21 +49,6 @@ namespace Gifter.Controllers
             return result;
         }
 
-        // GET: Categories/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CategoriesModel categoriesModel = db.Categories.Find(id);
-            if (categoriesModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(categoriesModel);
-        }
-
         // GET: Categories/Create
         public ActionResult Create()
         {

@@ -15,27 +15,6 @@ namespace Gifter.Controllers
     {
         private DataContext db = new DataContext();
 
-        // GET: Presents
-        public ActionResult Index()
-        {
-            return View(db.Presents.ToList());
-        }
-
-        // GET: Presents/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PresentsModel presentsModel = db.Presents.Find(id);
-            if (presentsModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(presentsModel);
-        }
-
         // GET: Presents/Create
         public ActionResult Create(int ?id)
         {
@@ -76,6 +55,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = presentsModel.PersonId;
             return View(presentsModel);
         }
 
@@ -105,6 +85,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = presentsModel.PersonId;
             return View(presentsModel);
         }
 

@@ -59,31 +59,6 @@ namespace Gifter.Controllers
 
             return View(personModel);
         }
-        public ActionResult CreateLike(int ?id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonLikesModel model = new PersonLikesModel();
-            model.PersonId = id.Value;
-            return View(model);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateLike([Bind(Include = "Name,PersonId,CategoryId,Level")] PersonLikesModel personLikesModel)
-        {
-            int personId = personLikesModel.PersonId;
-            if (ModelState.IsValid)
-            {
-                db.PersonLikes.Add(personLikesModel);
-                db.SaveChanges();
-                return RedirectToAction("Details",new { id = personId });
-            }
-
-            return View(personLikesModel);
-        }
-
         public ActionResult CreateProperty(int? id)
         {
             if (id == null)
@@ -148,6 +123,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = personProperyModel.PersonId;
             return View(personProperyModel);
         }
 

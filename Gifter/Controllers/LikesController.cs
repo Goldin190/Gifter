@@ -15,28 +15,6 @@ namespace Gifter.Controllers
     {
         private DataContext db = new DataContext();
 
-        // GET: Likes
-        public ActionResult Index()
-        {
-            return View(db.PersonLikes.ToList());
-        }
-        
-
-        // GET: Likes/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PersonLikesModel personLikesModel = db.PersonLikes.Find(id);
-            if (personLikesModel == null)
-            {
-                return HttpNotFound();
-            }
-            return View(personLikesModel);
-        }
-
         // GET: Likes/Create
         public ActionResult Create(int ?id)
         {
@@ -46,6 +24,7 @@ namespace Gifter.Controllers
             }
             PersonLikesModel model = new PersonLikesModel();
             model.PersonId = id.Value;
+            ViewBag.Id = id.Value;
             return View(model);
         }
 
@@ -74,6 +53,7 @@ namespace Gifter.Controllers
             }
             PersonDislikesModel model = new PersonDislikesModel();
             model.PersonId = id.Value;
+            ViewBag.Id = id.Value;
             return View(model);
         }
 
@@ -104,6 +84,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = id.Value;
             return View(personLikesModel);
         }
 
@@ -133,6 +114,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = id.Value;
             return View(personDislikesModel);
         }
 
@@ -163,6 +145,8 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = id.Value;
+
             return View(personLikesModel);
         }
 
@@ -189,6 +173,7 @@ namespace Gifter.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Id = id.Value;
             return View(personDislikesModel);
         }
 

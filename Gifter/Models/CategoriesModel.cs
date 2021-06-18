@@ -17,6 +17,14 @@ namespace Gifter.Models
 
     }
     [NotMapped]
+    public class CategoryCreate
+    {
+        public int Id { get; set; }
+        public String Name { get; set; }
+        public String UserId { get; set; }
+        public int PersonId { get; set; }
+    }
+    [NotMapped]
     public class CategoriesDropDown
     {
         public int Id { get; set; }
