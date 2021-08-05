@@ -12,12 +12,20 @@
 <body class="bg-dark">
     <div class="navbar navbar-expand-lg navbar-dark bg-secondary ">
         @Html.ActionLink("Gifter", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">Expand</button>
         <div class="navbar-collapse collapse" id="navbarNav">
             <ul class="nav navbar-nav">
-                <li class="nav-item">@Html.ActionLink("Strona główna", "Index", "Home", new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Informacje", "About", "Home", new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Kontakt", "Contact", "Home", new { @class = "nav-link" })</li>
+                @{ 
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Categories", "Index", "Categories", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("People", "Index", "Persons", null, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Schelude", "Index", "Schelude", null, new { @class = "nav-link" })</li>
+                    }
+                }
+
             </ul>
         </div>
         @Html.Partial("_LoginPartial")
@@ -28,7 +36,7 @@
             @RenderBody()
             <hr />
             <footer>
-                <p>&copy; @DateTime.Now.Year - Moja aplikacja ASP.NET</p>
+                <p>&copy; 2021 - Gifter MVC 5 ASP.NET</p>
             </footer>
         </div>
     </div>

@@ -12,7 +12,7 @@
             <th>
                 How Much (1-5)
             </th>
-            <th>@Html.ActionLink("Create", "CreateLike", new { id = Model.ToList()[0].PersonId })</th>
+            <th>@Html.ActionLink("Create new like", "Create", new { id = ViewBag.id })</th>
         </tr>
     </thead>
     <tbody>
@@ -31,7 +31,6 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>

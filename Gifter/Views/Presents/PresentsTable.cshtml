@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Gifter.Models.PresentsModelDisplay>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>
+                <h4>Presents</h4>
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Link to Purchase
+            </th>
+            <th>
+                Was giftet ?
+            </th>
+            <th>@Html.ActionLink("Add new Present !", "Create" , new { id = ViewBag.id })</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CategoryName)
+    </td>
+    <td>
+        <a href="@Html.DisplayFor(modelItem => item.LinkToProduct)">Link to present !</a>
+    </td>
+    <td>
+        @{ 
+            if (item.IsDone == true) {
+                @:Already Gifted !
+            }
+            else
+            {
+                @:Not Yet !
+            }
+        }   
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>}
+    </tbody>
+</table>

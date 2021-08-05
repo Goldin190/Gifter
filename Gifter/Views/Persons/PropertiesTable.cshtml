@@ -12,7 +12,9 @@
             <th>
                 Property Value
             </th>
-            <th></th>
+            <th>
+                @Html.ActionLink("Add Property", "CreateProperty", new { id = ViewBag.id })
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -26,9 +28,8 @@
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "EditProperty", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteProperty", new { id = item.Id })
                 </td>
             </tr>
         }
