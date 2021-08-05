@@ -2,15 +2,16 @@
 
 @{
     ViewBag.Title = "Schelude";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
+@Styles.Render("~/Content/TableStyles.css")
 
 <h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table table-dark table-striped">
     <tr>
         <th>
             @Html.DisplayName("First Name")
@@ -26,23 +27,24 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        
-        <td>
-            @Html.ActionLink(item.FirstName, "Details", "Persons", new { id = item.UserId }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SirName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddInfo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BirthDate)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.ActionLink(item.FirstName, "Details", "Persons", new { id = item.UserId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SirName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddInfo)
+            </td>
+            <td>
+                @item.BirthDate.ToString("MMMM dd")
+            </td>
+        </tr>
+    }
 
 </table>
 @ViewBag.Days
