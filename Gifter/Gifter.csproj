@@ -422,6 +422,29 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Persons\PropertiesTable.cshtml" />
     <Content Include="Views\Persons\LikesTable.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Delete.cshtml" />
+    <Content Include="Views\Categories\Details.cshtml" />
+    <Content Include="Views\Categories\DropDown.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Likes\Create.cshtml" />
+    <Content Include="Views\Likes\CreateDislike.cshtml" />
+    <Content Include="Views\Likes\Delete.cshtml" />
+    <Content Include="Views\Likes\DeleteDislike.cshtml" />
+    <Content Include="Views\Likes\Details.cshtml" />
+    <Content Include="Views\Likes\DislikesTable.cshtml" />
+    <Content Include="Views\Likes\Edit.cshtml" />
+    <Content Include="Views\Likes\EditDislike.cshtml" />
+    <Content Include="Views\Likes\Index.cshtml" />
+    <Content Include="Views\Likes\LikesTable.cshtml" />
+    <Content Include="Views\Presents\Create.cshtml" />
+    <Content Include="Views\Presents\Delete.cshtml" />
+    <Content Include="Views\Presents\Details.cshtml" />
+    <Content Include="Views\Presents\Edit.cshtml" />
+    <Content Include="Views\Presents\Index.cshtml" />
+    <Content Include="Views\Presents\PresentsTable.cshtml" />
+    <Content Include="Views\Schelude\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
